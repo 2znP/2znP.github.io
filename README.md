@@ -1,2 +1,2 @@
-# mozkamath.github.io
+# 2znP.github.io
 Mozka Math website
