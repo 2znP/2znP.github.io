@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang=pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozka Math - Soma</title>
+    <style>
+
+        body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1><header>Mozka Math</header></h1>
+    <p><a href="../index.html">voltar</a></p>
+    <h2>Pratique sua soma</h2>
+    <br><br>
+    <p>Conta:</p> <div id="resp"></div>
+    <script>
+        
+function gerarEqu(){
+       conOne = Math.floor(Math.random() * 100);
+       conTwo = Math.floor(Math.random() * 100);
+       var resp = document.getElementById('resp');
+       var equ = conOne + " + " + conTwo + " ="
+       realResult = conOne + conTwo
+       resp.innerHTML = equ 
+    }
+    gerarEqu()
+    </script>
+    <form method="get">
+        <input type="text" id="meu-input" />
+        <input type="submit" id="meu-submit" value="Enviar" />
+    </form>
+    <p>Seus resultados</p> 
+    <br><br>
+    <p>Acertos</p>
+    <p>
+        <div id="desemP"></div>
+    </p>
+    <br><br>
+    <p>Erros</p>
+    
+    <p>
+        <div id="desemPn"></div>
+    </p>
+    <script>
+        numAcerto = 0
+        numErro = 0
+
+        var desemP = document.getElementById('desemP');
+        desemP.innerHTML = numAcerto
+        
+        var desemPn = document.getElementById('desemPn');
+        desemPn.innerHTML = numErro
+        
+function mostrarValor() {
+        if (document.getElementById("meu-input").value == realResult){
+                numAcerto++
+                desemP.innerHTML = numAcerto
+                document.getElementById('meu-input').value='';
+                gerarEqu();
+        }
+        else{
+            numErro++    
+            desemPn.innerHTML = numErro
+            document.getElementById('meu-input').value='';
+        }
+}
+
+// Evento que é executado toda vez que uma tecla for pressionada no input
+document.getElementById("meu-input").onkeypress = function(e) {
+    // 13 é a tecla <ENTER>. Se ela for pressionada, mostrar o valor
+    if (e.keyCode == 13) {
+        mostrarValor();
+        e.preventDefault();
+        }
+
+    }
+
+
+// Evento que é executado ao clicar no botão de enviar
+document.getElementById("meu-submit").onclick = function(e) {
+    mostrarValor();
+    e.preventDefault();
+}
+    </script>
+</body>
+</html>
