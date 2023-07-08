@@ -1,24 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <title>Mozka Math</title>
-    <style>
-        body{
-            align-items: center;
-            text-align: center;
-        }
-    </style>
+  <title>Treinamento de Reflexo de Direção</title>
+  <style>
+    .arrow {
+      font-size: 48px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1><header>Mozka Math</header></h1>
-    <h2>Bem vindo ao Mozka Math, um otimo local para aprimorar sua matematica</h2>
-    <br>
-    <h3><a href="quemsomos.html" rel="next">-Como funciona?</a></h3>
-    <br>
-    <h3><a href="começar.html">-Começar</a></h3>
+  <h1>Treinamento de Reflexo de Direção</h1>
+  <div id="arrowContainer"></div>
+  
+  <script>
+    function showArrow() {
+      var arrowContainer = document.getElementById("arrowContainer");
+      var arrows = ["&larr;", "&rarr;"]; // Setas para esquerda e direita
+      var randomArrow = arrows[Math.floor(Math.random() * arrows.length)];
+      
+      arrowContainer.innerHTML = "<div class='arrow'>" + randomArrow + "</div>";
+      playBeep();
+      setTimeout(hideArrow, 1000); // Exibe a seta por 1 segundo
+    }
+    
+    function hideArrow() {
+      var arrowContainer = document.getElementById("arrowContainer");
+      arrowContainer.innerHTML = "";
+      setTimeout(showArrow, 3000); // Espera 3 segundos para mostrar a próxima seta
+    }
+    
+    function playBeep() {
+      // Aqui você pode adicionar código para reproduzir um som de bip
+      // Por exemplo, você pode usar a API Audio do HTML5 ou um elemento de áudio
+    }
+    
+    // Inicia o treinamento
+    showArrow();
+  </script>
+</body>
 </html>
+
+ 
