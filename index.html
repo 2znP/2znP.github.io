@@ -1,44 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-  <title>Treinamento de Reflexo de Direção</title>
-  <style>
-    .arrow {
-      font-size: 200px; /* Tamanho da fonte aumentado para 4000 pixels */
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflex machine</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <h1>Treinamento de Reflexo de Direção</h1>
-  <div id="arrowContainer"></div>
-  
-  <script>
-    var beepSound = new Audio('bip.mp3'); 
-    function showArrow() {
-      var arrowContainer = document.getElementById("arrowContainer");
-      var arrows = ["&larr;", "&rarr;"]; // Setas para esquerda e direita
-      var randomArrow = arrows[Math.floor(Math.random() * arrows.length)];
-      
-      arrowContainer.innerHTML = "<div class='arrow'>" + randomArrow + "</div>";
-      playBeep();
-      setTimeout(hideArrow, 1000); // Exibe a seta por 1 segundo
-    }
     
-    function hideArrow() {
-      var arrowContainer = document.getElementById("arrowContainer");
-      arrowContainer.innerHTML = "";
-      setTimeout(showArrow, 3000); // Espera 3 segundos para mostrar a próxima seta
-    }
-    
-    function playBeep() {
-       beepSound.play();
-      // Aqui você pode adicionar código para reproduzir um som de bip
-      // Por exemplo, você pode usar a API Audio do HTML5 ou um elemento de áudio
-    }
-    
-    // Inicia o treinamento
-    showArrow();
-  </script>
+</body>
+</html>
+<html>
+<head>
+    <style>
+        .arrow {
+            font-size: 10vw;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        .countdown {
+            font-size: 72px; /* Tamanho aumentado */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .start-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .start-button {
+            font-size: 36px;
+            padding: 20px 40px;
+            border-radius: 10px;
+            background-color: #9ed407;
+            color: #fff;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="start-menu">
+        <button class="start-button" onclick="startGame()">Começar</button>
+    </div>
+
+    <div class="countdown" id="countdown"></div>
+
+    <span class="arrow" id="arrow">&#8594;</span>
+
+
+    <script>
+        function startCountdown() {
+            var countdown = document.getElementById('countdown');
+            countdown.style.display = 'block';
+
+            var count = 5;
+            countdown.innerHTML = count;
+
+            var countdownInterval = setInterval(function() {
+                count--;
+                countdown.innerHTML = count;
+
+                if (count === 0) {
+                    clearInterval(countdownInterval);
+                    countdown.style.display = 'none';
+                    showArrow();
+                }
+            }, 1000);
+        }
+
+        function getRandomDirection() {
+            return Math.random() < 0.5 ? 'left' : 'right';
+        }
+
+        function hideArrow() {
+            var arrow = document.getElementById('arrow');
+            arrow.style.display = 'none';
+
+            setTimeout(showArrow, 3000);
+        }
+
+        function showArrow() {
+            var arrow = document.getElementById('arrow');
+            var direction = getRandomDirection();
+
+            arrow.innerHTML = direction === 'left' ? '&#8592;' : '&#8594;';
+            arrow.style.display = 'block';
+
+            setTimeout(hideArrow, 3000);
+        }
+
+        function updateArrowSize() {
+            var arrow = document.getElementById('arrow');
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+            var orientation = windowWidth > windowHeight ? 'horizontal' : 'vertical';
+
+            if (orientation === 'horizontal') {
+                arrow.style.fontSize = '35vw';
+            } else {
+                arrow.style.fontSize = '35vh';
+            }
+        }
+
+        window.addEventListener('resize', updateArrowSize);
+
+        function startGame() {
+            var startMenu = document.querySelector('.start-menu');
+            startMenu.style.display = 'none';
+
+            startCountdown();
+        }
+
+        updateArrowSize();
+    </script>
 </body>
 </html>
