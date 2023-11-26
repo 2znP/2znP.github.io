@@ -1,125 +1,36 @@
 <!DOCTYPE html>
-<html lang="PT-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reflex machine</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Download de Imagem</title>
 </head>
 <body>
-    
+
+<!-- O botão para o download -->
+<button onclick="downloadImagem()">Baixar Imagem</button>
+
+<script>
+function downloadImagem() {
+    // Crie um link temporário
+    var link = document.createElement('a');
+    link.href = 'pinguim.jpg'; // Substitua pelo caminho real da sua imagem
+    link.download = 'pinguim.jpg'; // Substitua pelo nome desejado para o arquivo ao ser baixado
+
+    // Adicione o link ao corpo do documento
+    document.body.appendChild(link);
+
+    // Acione o clique no link
+    link.click();
+
+    // Remova o link do corpo do documento
+    document.body.removeChild(link);
+}
+</script>
+
 </body>
 </html>
-<html>
-<head>
-    <style>
-        .arrow {
-            font-size: 10vw;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
 
-        .countdown {
-            font-size: 72px; /* Tamanho aumentado */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .start-menu {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .start-button {
-            font-size: 36px;
-            padding: 20px 40px;
-            border-radius: 10px;
-            background-color: #9ed407;
-            color: #fff;
-            cursor: pointer;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="start-menu">
-        <button class="start-button" onclick="startGame()">Começar</button>
-    </div>
-
-    <div class="countdown" id="countdown"></div>
-
-    <span class="arrow" id="arrow">&#8594;</span>
-
-
-    <script>
-        function startCountdown() {
-            var countdown = document.getElementById('countdown');
-            countdown.style.display = 'block';
-
-            var count = 5;
-            countdown.innerHTML = count;
-
-            var countdownInterval = setInterval(function() {
-                count--;
-                countdown.innerHTML = count;
-
-                if (count === 0) {
-                    clearInterval(countdownInterval);
-                    countdown.style.display = 'none';
-                    showArrow();
-                }
-            }, 1000);
-        }
-
-        function getRandomDirection() {
-            return Math.random() < 0.5 ? 'left' : 'right';
-        }
-
-        function hideArrow() {
-            var arrow = document.getElementById('arrow');
-            arrow.style.display = 'none';
-
-            setTimeout(showArrow, 3000);
-        }
-
-        function showArrow() {
-            var arrow = document.getElementById('arrow');
-            var direction = getRandomDirection();
-
-            arrow.innerHTML = direction === 'left' ? '&#8592;' : '&#8594;';
-            arrow.style.display = 'block';
-
-            setTimeout(hideArrow, 3000);
-        }
-
-        function updateArrowSize() {
-            var arrow = document.getElementById('arrow');
-            var windowWidth = window.innerWidth;
-            var windowHeight = window.innerHeight;
-            var orientation = windowWidth > windowHeight ? 'horizontal' : 'vertical';
-
-            if (orientation === 'horizontal') {
-                arrow.style.fontSize = '35vw';
-            } else {
-                arrow.style.fontSize = '35vh';
-            }
-        }
-
-        window.addEventListener('resize', updateArrowSize);
-
-        function startGame() {
-            var startMenu = document.querySelector('.start-menu');
-            startMenu.style.display = 'none';
-
-            startCountdown();
-        }
 
         updateArrowSize();
     </script>
