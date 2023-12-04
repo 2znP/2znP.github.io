@@ -1,38 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download de Imagem</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .ball {
+      width: 30px;
+      height: 30px;
+      background-color: #3498db;
+      border-radius: 50%;
+      position: absolute;
+      display: none;
+    }
+  </style>
+  <title>Memory Game</title>
 </head>
 <body>
 
-<!-- O botão para o download -->
-<button onclick="downloadImagem()">Baixar Imagem</button>
-
 <script>
-function downloadImagem() {
-    // Crie um link temporário
-    var link = document.createElement('a');
-    link.href = 'pinguim.jpg'; // Substitua pelo caminho real da sua imagem
-    link.download = 'pinguim.jpg'; // Substitua pelo nome desejado para o arquivo ao ser baixado
+  document.addEventListener("DOMContentLoaded", function() {
+    const balls = document.querySelectorAll('.ball');
 
-    // Adicione o link ao corpo do documento
-    document.body.appendChild(link);
+    function showRandomBalls() {
+      balls.forEach(ball => {
+        ball.style.display = 'none';
+      });
 
-    // Acione o clique no link
-    link.click();
+      const randomBalls = getRandomBalls(3);
+      randomBalls.forEach(ball => {
+        ball.style.display = 'block';
+      });
 
-    // Remova o link do corpo do documento
-    document.body.removeChild(link);
-}
+      setTimeout(() => {
+        balls.forEach(ball => {
+          ball.style.display = 'none';
+        });
+        moveBalls();
+      }, 3000);
+    }
+
+    function moveBalls() {
+      balls.forEach(ball => {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+
+        ball.style.left = x + 'px';
+        ball.style.top = y + 'px';
+      });
+
+      setTimeout(() => {
+        balls.forEach(ball => {
+          ball.style.display = 'none';
+        });
+        alert("Agora selecione as bolas que estavam acesas!");
+      }, 10000);
+    }
+
+    function getRandomBalls(count) {
+      const randomBalls = [];
+      while (randomBalls.length < count) {
+        const ball = balls[Math.floor(Math.random() * balls.length)];
+        if (!randomBalls.includes(ball)) {
+          randomBalls.push(ball);
+        }
+      }
+      return randomBalls;
+    }
+
+    showRandomBalls();
+  });
 </script>
 
-</body>
-</html>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
 
-
-        updateArrowSize();
-    </script>
 </body>
 </html>
