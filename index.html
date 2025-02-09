@@ -8,57 +8,60 @@
     <style>
         body { font-family: Arial, sans-serif; }
         .resistor { display: flex; align-items: center; justify-content: center; background: #c4a484; height: 50px; width: 200px; border-radius: 10px; position: relative; }
-        .band { width: 10px; height: 50px; position: absolute; cursor: pointer; }
+        .band { width: 10px; height: 50px; position: absolute; }
         .band:nth-child(1) { left: 40px; }
         .band:nth-child(2) { left: 80px; }
         .band:nth-child(3) { left: 120px; }
-        .band:nth-child(4) { left: 160px; }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
 
-    <h1 class="text-2xl font-bold mb-4">Resistor Color Code Trainer</h1>
+    <h1 class="text-2xl font-bold mb-4">Guess the Resistor Value</h1>
 
     <div class="resistor mb-4">
-        <div class="band" data-band="1"></div>
-        <div class="band" data-band="2"></div>
-        <div class="band" data-band="3"></div>
-        <div class="band" data-band="4"></div>
+        <div class="band" id="band1"></div>
+        <div class="band" id="band2"></div>
+        <div class="band" id="band3"></div>
     </div>
 
-    <p class="mb-2">Selected Value: <span id="resistance">---</span> Ω</p>
+    <input type="number" id="userInput" placeholder="Enter resistance (Ω)" class="px-3 py-2 rounded text-black">
+    <button onclick="checkAnswer()" class="bg-blue-500 px-4 py-2 rounded mt-2">Check</button>
 
-    <button onclick="randomizeResistor()" class="bg-blue-500 px-4 py-2 rounded">Random Resistor</button>
+    <p id="result" class="mt-3 text-lg font-bold"></p>
+
+    <button onclick="generateResistor()" class="bg-green-500 px-4 py-2 rounded mt-4">New Resistor</button>
 
     <script>
         const colors = ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "gray", "white"];
-        let bands = [0, 0, 0, 1]; // Default
+        let correctValue = 0;
 
-        function updateResistor() {
-            document.querySelectorAll('.band').forEach((band, index) => {
-                band.style.background = colors[bands[index]];
-            });
-            calculateResistance();
+        function generateResistor() {
+            let digit1 = Math.floor(Math.random() * 10);
+            let digit2 = Math.floor(Math.random() * 10);
+            let multiplier = Math.floor(Math.random() * 10);
+            
+            correctValue = (digit1 * 10 + digit2) * Math.pow(10, multiplier);
+
+            document.getElementById("band1").style.background = colors[digit1];
+            document.getElementById("band2").style.background = colors[digit2];
+            document.getElementById("band3").style.background = colors[multiplier];
+
+            document.getElementById("result").textContent = "";
+            document.getElementById("userInput").value = "";
         }
 
-        function calculateResistance() {
-            let value = (bands[0] * 10 + bands[1]) * Math.pow(10, bands[2]);
-            document.getElementById("resistance").textContent = value + " Ω";
+        function checkAnswer() {
+            let userAnswer = document.getElementById("userInput").value;
+            if (parseInt(userAnswer) === correctValue) {
+                document.getElementById("result").textContent = "✅ Correct!";
+                document.getElementById("result").classList.add("text-green-500");
+            } else {
+                document.getElementById("result").textContent = "❌ Wrong! Try again.";
+                document.getElementById("result").classList.add("text-red-500");
+            }
         }
 
-        document.querySelectorAll('.band').forEach((band, index) => {
-            band.addEventListener("click", () => {
-                bands[index] = (bands[index] + 1) % colors.length;
-                updateResistor();
-            });
-        });
-
-        function randomizeResistor() {
-            bands = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), 1];
-            updateResistor();
-        }
-
-        updateResistor();
+        generateResistor();
     </script>
 
 </body>
