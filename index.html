@@ -1,86 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    .ball {
-      width: 30px;
-      height: 30px;
-      background-color: #3498db;
-      border-radius: 50%;
-      position: absolute;
-      display: none;
-    }
-  </style>
-  <title>Memory Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistor Color Code Trainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .resistor { display: flex; align-items: center; justify-content: center; background: #c4a484; height: 50px; width: 200px; border-radius: 10px; position: relative; }
+        .band { width: 10px; height: 50px; position: absolute; cursor: pointer; }
+        .band:nth-child(1) { left: 40px; }
+        .band:nth-child(2) { left: 80px; }
+        .band:nth-child(3) { left: 120px; }
+        .band:nth-child(4) { left: 160px; }
+    </style>
 </head>
-<body>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const balls = document.querySelectorAll('.ball');
+    <h1 class="text-2xl font-bold mb-4">Resistor Color Code Trainer</h1>
 
-    function showRandomBalls() {
-      balls.forEach(ball => {
-        ball.style.display = 'none';
-      });
+    <div class="resistor mb-4">
+        <div class="band" data-band="1"></div>
+        <div class="band" data-band="2"></div>
+        <div class="band" data-band="3"></div>
+        <div class="band" data-band="4"></div>
+    </div>
 
-      const randomBalls = getRandomBalls(3);
-      randomBalls.forEach(ball => {
-        ball.style.display = 'block';
-      });
+    <p class="mb-2">Selected Value: <span id="resistance">---</span> Ω</p>
 
-      setTimeout(() => {
-        balls.forEach(ball => {
-          ball.style.display = 'none';
-        });
-        moveBalls();
-      }, 3000);
-    }
+    <button onclick="randomizeResistor()" class="bg-blue-500 px-4 py-2 rounded">Random Resistor</button>
 
-    function moveBalls() {
-      balls.forEach(ball => {
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
+    <script>
+        const colors = ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "gray", "white"];
+        let bands = [0, 0, 0, 1]; // Default
 
-        ball.style.left = x + 'px';
-        ball.style.top = y + 'px';
-      });
-
-      setTimeout(() => {
-        balls.forEach(ball => {
-          ball.style.display = 'none';
-        });
-        alert("Agora selecione as bolas que estavam acesas!");
-      }, 10000);
-    }
-
-    function getRandomBalls(count) {
-      const randomBalls = [];
-      while (randomBalls.length < count) {
-        const ball = balls[Math.floor(Math.random() * balls.length)];
-        if (!randomBalls.includes(ball)) {
-          randomBalls.push(ball);
+        function updateResistor() {
+            document.querySelectorAll('.band').forEach((band, index) => {
+                band.style.background = colors[bands[index]];
+            });
+            calculateResistance();
         }
-      }
-      return randomBalls;
-    }
 
-    showRandomBalls();
-  });
-</script>
+        function calculateResistance() {
+            let value = (bands[0] * 10 + bands[1]) * Math.pow(10, bands[2]);
+            document.getElementById("resistance").textContent = value + " Ω";
+        }
 
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
-<div class="ball"></div>
+        document.querySelectorAll('.band').forEach((band, index) => {
+            band.addEventListener("click", () => {
+                bands[index] = (bands[index] + 1) % colors.length;
+                updateResistor();
+            });
+        });
+
+        function randomizeResistor() {
+            bands = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), 1];
+            updateResistor();
+        }
+
+        updateResistor();
+    </script>
 
 </body>
 </html>
